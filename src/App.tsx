@@ -9,8 +9,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           <div className="flex items-center">
-            <a href="#" className="flex items-center gap-2">
-              <Heart className="h-8 w-8 text-secondary fill-secondary" />
+            <a href="#" className="flex items-center gap-3">
+              <img src="/logo.png" alt="Spirits In Unity Logo" className="h-10 w-auto object-contain" />
               <span className="font-display font-bold text-2xl text-primary tracking-tight">Spirits In Unity</span>
             </a>
           </div>
@@ -101,19 +101,29 @@ const Purpose = () => {
   return (
     <section id="purpose" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start mb-20">
-          <div>
-            <span className="text-dark font-bold tracking-wide text-sm">About us</span>
-            <div className="mt-8">
-              <div className="w-24 h-24 bg-secondary/10 rounded-xl flex items-center justify-center transform -rotate-6">
-                <Heart className="w-12 h-12 text-secondary" />
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+          <div className="relative h-[400px] md:h-[500px] mb-12 lg:mb-0 order-2 lg:order-1">
+            <div className="absolute inset-0 bg-secondary rounded-[2rem] transform -translate-x-4 translate-y-4 opacity-30"></div>
+            <img
+              src="/volunteers_huddled_up.png"
+              alt="Group of volunteers huddled together"
+              className="relative w-full h-full object-cover rounded-[2rem] shadow-2xl"
+            />
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <span className="text-dark font-bold tracking-wide text-sm uppercase">About us</span>
+            <h2 className="text-4xl md:text-5xl lg:text-[54px] font-display text-primary leading-[1.2] mt-6 mb-8">
+              We believe in the power of <br /><span className="text-secondary italic font-bold">compassion</span> and <span className="text-secondary italic font-bold">collective</span> action.
+            </h2>
+            <p className="text-lg text-gray-600 leading-relaxed mb-8">
+              Our mission is to uplift underserved communities by providing vital resources, education, and support.
+            </p>
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-secondary/10 rounded-xl flex items-center justify-center transform -rotate-6">
+                <Heart className="w-8 h-8 text-secondary" />
               </div>
             </div>
-          </div>
-          <div>
-            <h2 className="text-4xl md:text-5xl lg:text-[54px] font-display text-primary leading-[1.2]">
-              We believe in the power of <br /><span className="text-secondary italic font-bold">compassion</span> and <span className="text-secondary italic font-bold">collective</span> action. Our mission is to uplift underserved communities by providing vital resources, education, and support.
-            </h2>
           </div>
         </div>
 
@@ -382,6 +392,12 @@ const Donation = () => {
               <Heart className="w-6 h-6" />
               {isMonthly ? 'Become a Monthly Supporter' : 'Donate Now'}
             </button>
+
+            <div className="mt-4 text-center">
+              <p className="text-sm text-gray-500">
+                For donations over $10,000, please <a href="#assistance" className="text-secondary font-bold hover:underline">contact us</a> for wire transfer or check instructions to avoid high processing fees.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -515,10 +531,10 @@ const Footer = () => {
   return (
     <footer className="bg-primary pt-20 pb-10 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           <div className="lg:col-span-1">
-            <a href="#" className="flex items-center gap-2 mb-6">
-              <Heart className="h-8 w-8 text-secondary fill-secondary" />
+            <a href="#" className="flex items-center gap-3 mb-6">
+              <img src="/logo.png" alt="Spirits In Unity Logo" className="h-10 w-auto object-contain" />
               <span className="font-display font-bold text-2xl tracking-tight">Spirits In Unity</span>
             </a>
             <p className="text-white/70 text-sm leading-relaxed mb-8">
@@ -551,23 +567,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-bold text-lg mb-6">Contact Us</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-white/70">
-                <MapPin className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                <span>123 Community Way<br />Cityville, ST 12345</span>
-              </li>
-              <li className="flex items-center gap-3 text-white/70">
-                <Phone className="w-5 h-5 text-secondary shrink-0" />
-                <span>(555) 123-4567</span>
-              </li>
-              <li className="flex items-center gap-3 text-white/70">
-                <Mail className="w-5 h-5 text-secondary shrink-0" />
-                <span>hello@spiritsinunity.org</span>
-              </li>
-            </ul>
-          </div>
+
 
           <div>
             <h4 className="font-bold text-lg mb-6">Transparency</h4>
@@ -582,9 +582,12 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/50 text-sm">
-            &copy; {new Date().getFullYear()} Spirits In Unity. All rights reserved.
-          </p>
+          <div className="text-white/50 text-sm">
+            <p>&copy; {new Date().getFullYear()} Spirits In Unity. All rights reserved.</p>
+            <p className="mt-1">
+              Crafted with Excellence By <a href="https://www.verix.ai" target="_blank" rel="noopener noreferrer" className="text-secondary font-medium hover:text-secondary-hover transition-colors">Verix AI</a>.
+            </p>
+          </div>
           <div className="flex gap-6 text-sm text-white/50">
             <a href="#" className="hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-sm px-1">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-sm px-1">Terms of Service</a>
