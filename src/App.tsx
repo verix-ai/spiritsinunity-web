@@ -312,7 +312,7 @@ const Impact = () => {
   );
 };
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.STRIPE_PUBLISHABLE_KEY);
 
 const Donation = () => {
   const [isMonthly, setIsMonthly] = useState(false);
@@ -453,8 +453,8 @@ const Donation = () => {
               onClick={handleCheckout}
               disabled={isLoading}
               className={`w-full text-white font-bold text-xl py-5 rounded-sm transition-all duration-200 shadow-md flex justify-center items-center gap-2 focus:outline-none focus:ring-4 focus:ring-secondary/50 ${isLoading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-secondary hover:bg-secondary-hover hover:shadow-lg hover:-translate-y-1 cursor-pointer'
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-secondary hover:bg-secondary-hover hover:shadow-lg hover:-translate-y-1 cursor-pointer'
                 }`}
             >
               <Heart className="w-6 h-6" />
