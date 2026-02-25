@@ -127,15 +127,7 @@ const Purpose = () => {
           </div>
         </div>
 
-        {/* Logos Strip Mockup */}
-        <div className="flex flex-wrap justify-between items-center opacity-40 grayscale gap-8">
-          <div className="flex items-center gap-2 font-display font-bold text-2xl"><Heart className="w-6 h-6" /> hues</div>
-          <div className="flex items-center gap-2 font-display font-bold text-2xl"><Users className="w-6 h-6" /> Penta</div>
-          <div className="flex items-center gap-2 font-display font-bold text-2xl"><Home className="w-6 h-6" /> Cactus</div>
-          <div className="flex items-center gap-2 font-display font-bold text-2xl"><Smile className="w-6 h-6" /> vision</div>
-          <div className="flex items-center gap-2 font-display font-bold text-2xl"><BookOpen className="w-6 h-6" /> Greenish</div>
-          <div className="flex items-center gap-2 font-display font-bold text-2xl"><Shield className="w-6 h-6" /> Cloud</div>
-        </div>
+
       </div>
     </section>
   );
