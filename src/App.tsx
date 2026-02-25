@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import { Heart, Users, Home, BookOpen, Smile, ArrowRight, CheckCircle2, Phone, Mail, MapPin, Menu, X, Shield, Coffee, Shirt, HandHeart } from 'lucide-react';
 
 const Navbar = () => {
@@ -311,9 +312,66 @@ const Impact = () => {
   );
 };
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
 const Donation = () => {
   const [isMonthly, setIsMonthly] = useState(false);
   const [amount, setAmount] = useState<number | 'custom'>(50);
+  const [customAmount, setCustomAmount] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('success')) {
+      setMessage('Donation successful! Thank you so much for your support.');
+    }
+    if (query.get('canceled')) {
+      setMessage('Donation canceled -- please try again when you are ready.');
+    }
+  }, []);
+
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    setMessage('');
+
+    // Determine the actual amount to charge
+    let finalAmount = typeof amount === 'number' ? amount : parseFloat(customAmount);
+
+    if (!finalAmount || finalAmount < 1) {
+      setMessage('Please enter a valid donation amount (minimum $1).');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: finalAmount,
+          isMonthly: isMonthly,
+        }),
+      });
+
+      const session = await response.json();
+
+      if (!response.ok) {
+        throw new Error(session.message || 'Something went wrong');
+      }
+
+      // Redirect to Checkout
+      window.location.href = session.url;
+
+    } catch (err: any) {
+      console.error(err);
+      setMessage(err.message || 'Unable to connect to Stripe.');
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section id="donate" className="py-24 bg-background relative border-t border-gray-200">
@@ -374,15 +432,33 @@ const Donation = () => {
                 <input
                   type="number"
                   placeholder="Custom Amount"
+                  value={customAmount}
+                  onChange={(e) => {
+                    setAmount('custom');
+                    setCustomAmount(e.target.value);
+                  }}
                   className="w-full pl-8 pr-4 py-4 rounded-sm border-2 border-gray-200 focus:border-secondary focus:ring-4 focus:ring-secondary/20 outline-none transition-all duration-200 text-lg font-bold text-primary"
                   onClick={() => setAmount('custom')}
                 />
               </div>
             </div>
 
-            <button className="w-full bg-secondary hover:bg-secondary-hover text-white font-bold text-xl py-5 rounded-sm transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-secondary/50 cursor-pointer flex justify-center items-center gap-2">
+            {message && (
+              <div className="mb-6 p-4 rounded-lg bg-gray-50 text-gray-700 text-sm font-medium border border-gray-200">
+                {message}
+              </div>
+            )}
+
+            <button
+              onClick={handleCheckout}
+              disabled={isLoading}
+              className={`w-full text-white font-bold text-xl py-5 rounded-sm transition-all duration-200 shadow-md flex justify-center items-center gap-2 focus:outline-none focus:ring-4 focus:ring-secondary/50 ${isLoading
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-secondary hover:bg-secondary-hover hover:shadow-lg hover:-translate-y-1 cursor-pointer'
+                }`}
+            >
               <Heart className="w-6 h-6" />
-              {isMonthly ? 'Become a Monthly Supporter' : 'Donate Now'}
+              {isLoading ? 'Connecting to Stripe...' : (isMonthly ? 'Become a Monthly Supporter' : 'Donate Now')}
             </button>
 
             <div className="mt-4 text-center">
